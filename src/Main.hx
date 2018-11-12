@@ -10,7 +10,7 @@ using tink.CoreApi;
 
 class Main {
 	static function main() {
-		document.body.appendChild(new Root({}).toElement());
+		coconut.Ui.hxx('<Root/>').renderInto(document.body);
 	}
 }
 
@@ -34,7 +34,7 @@ class Root extends View {
 				<Button data=${data} id="haxeshim" />
 			</nav>
 			<div class="page"><!-- SOMETHING IS WRONG HERE ↓ -->
-				<div class="leave-me-out">
+				
 				<if ${data.current == "tink_core"}>
 					<Page url="https://raw.githubusercontent.com/haxetink/tink_core/master/README.md"/><hr/>
 					<Page url="https://raw.githubusercontent.com/haxetink/tink_core/gh-pages/types/annex.md"/><hr/>
@@ -52,7 +52,7 @@ class Root extends View {
 					<Page url="https://raw.githubusercontent.com/haxetink/tink_core/gh-pages/types/ref.md"/><hr/>
 					<Page url="https://raw.githubusercontent.com/haxetink/tink_core/gh-pages/types/signal.md"/>
 				</if>
-				</div>
+				
 				
 				<Page visible=${data.current == "get-started"} url="https://gist.githubusercontent.com/markknol/0de2d8d05e8f3d725946eb5515cc771b/raw/79dfe05e46ab0e60460eb1ddd19a783a9975e85d/coconut.md"/>
 				<Page visible=${data.current == "coconut.data"} url="https://raw.githubusercontent.com/MVCoconut/coconut.data/master/README.md"/>
@@ -85,10 +85,14 @@ class Page extends View {
 	@:attribute var visible:Bool = true;
 	@:state var data:PageData = new PageData({url: this.url});
 
-	override function afterInit(e):Void {
-		super.afterInit(e);
+	function viewDidUpdate() {
 		data.url = url;
 	}
+	
+	function viewDidMount() {
+		data.url = url;
+	}
+	
 	function render() '
 		<div>
 			<if ${visible}>
@@ -105,19 +109,10 @@ class Page extends View {
 }
 
 class HtmlView extends View {
+	@:ref var div:js.html.DivElement;
 	@:attribute var content:String;
 
-	override function afterPatching(e) {
-		super.afterPatching(e);
-		e.innerHTML = content;
-		highlighter.Highlighter.highlight(e);
-	}
-	override function afterInit(e) {
-		super.afterInit(e);
-		e.innerHTML = content;
-		highlighter.Highlighter.highlight(e);
-	}
-	function render() '<div></div>';
+	function render() '<div ref=${div -> { div.innerHTML = content; highlighter.Highlighter.highlight(div); }}></div>';
 }
 
 class PageData implements Model {
