@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "lix": "^15.3.2",
+    "uglify-js": "^3.4.9"
+  }
+}

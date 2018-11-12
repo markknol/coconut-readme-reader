@@ -1,0 +1,11 @@
+-cp src
+-lib coconut.vdom
+-main Main
+-dce full
+-js bin/main.js
+-lib markdown
+-lib html-haxe-code-highlighter
+
+-lib uglifyjs
+-D uglifyjs_overwrite
+-D uglifyjs_disable

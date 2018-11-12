@@ -1,0 +1,3 @@
+-D html-haxe-code-highlighter=0.1.2
+# @install: lix --silent download "haxelib:/html-haxe-code-highlighter#0.1.2" into html-haxe-code-highlighter/0.1.2/haxelib
+-cp ${HAXE_LIBCACHE}/html-haxe-code-highlighter/0.1.2/haxelib/src
